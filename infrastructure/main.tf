@@ -7,6 +7,12 @@ terraform {
   }
 
   required_version = ">= 0.14.9"
+
+  backend "s3" {
+    bucket = "terraform-state-recipe-manager"
+    key    = "recipe-manager"
+    region = "eu-west-2"
+  }
 }
 
 provider "aws" {

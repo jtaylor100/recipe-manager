@@ -82,6 +82,12 @@ resource "aws_elastic_beanstalk_environment" "recipe_manager" {
     value     = aws_iam_instance_profile.instance_profile.name
   }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PORT"
+    value     = "3000"
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.instance_profile,
   ]

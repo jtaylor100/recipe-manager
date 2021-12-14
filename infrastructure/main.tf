@@ -44,5 +44,11 @@ resource "aws_elastic_beanstalk_environment" "recipe_manager" {
   application         = aws_elastic_beanstalk_application.recipe_manager.name
   solution_stack_name = "64bit Amazon Linux 2 v5.4.8 running Node.js 14"
   version_label       = aws_elastic_beanstalk_application_version.recipe_manager_main.name
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "IamInstanceProfile"
+    value     = "aws-elasticbeanstalk-ec2-role"
+  }
 }
 

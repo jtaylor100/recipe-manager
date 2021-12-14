@@ -36,6 +36,8 @@ jobs:
         run: zip -yqr infrastructure/bundle.zip ./
       - name: Setup Terraform environment
         uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
       - name: Terraform Init
         id: init
         run: terraform -chdir=infrastructure init

@@ -42,6 +42,6 @@ jobs:
       - name: Terraform Apply & Elastic Beanstalk Deploy
         run: |
           terraform -chdir=infrastructure apply -auto-approve
-          aws elasticbeanstalk update-environment \
-            --environment-id "$(terraform -chdir=infrastructure output -raw environment_id)" \
-            --version-label "$(terraform -chdir=infrastructure output -raw version_label)"
+          ENVIRONMENT_ID=$(terraform -chdir=infrastructure output -raw environment_id)
+          VERSION_LABEL=$(terraform -chdir=infrastructure output -raw version_label)
+          aws elasticbeanstalk update-environment --environment-id "$ENVIRONMENT_ID" --version-label "$VERSION_LABEL"

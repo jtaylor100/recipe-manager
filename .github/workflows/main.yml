@@ -32,7 +32,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Package
-        run: zip -r bundle.zip ./
+        run: zip -qr infrastructure/bundle.zip ./
       - name: Setup Terraform environment
         uses: hashicorp/setup-terraform@v1
       - name: Terraform Init

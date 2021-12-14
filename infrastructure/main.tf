@@ -25,6 +25,7 @@ resource "aws_s3_bucket_object" "recipe_manager_deployment" {
   bucket = aws_s3_bucket.recipe_manager_deployment.bucket
   key    = "recipe_manager_deployment"
   source = "bundle.zip"
+  etag   = filemd5("bundle.zip")
 }
 
 resource "aws_elastic_beanstalk_application" "recipe_manager" {
@@ -39,6 +40,36 @@ resource "aws_elastic_beanstalk_application_version" "recipe_manager_main" {
   key         = aws_s3_bucket_object.recipe_manager_deployment.id
 }
 
+data "aws_iam_policy_document" "instance-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy" "AWSElasticBeanstalkWebTier" {
+  name = "AWSElasticBeanstalkWebTier"
+}
+
+resource "aws_iam_instance_profile" "instance_profile" {
+  name = "RecipeManagerInstanceProfile"
+  role = aws_iam_role.instance_profile.name
+}
+
+resource "aws_iam_role" "instance_profile" {
+  name               = "RecipeManagerInstanceProfile"
+  assume_role_policy = data.aws_iam_policy_document.instance-assume-role-policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "instance_profile" {
+  role       = aws_iam_role.instance_profile.name
+  policy_arn = data.aws_iam_policy.AWSElasticBeanstalkWebTier.arn
+}
+
 resource "aws_elastic_beanstalk_environment" "recipe_manager" {
   name                = "development"
   application         = aws_elastic_beanstalk_application.recipe_manager.name
@@ -48,7 +79,19 @@ resource "aws_elastic_beanstalk_environment" "recipe_manager" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
-    value     = "aws-elasticbeanstalk-ec2-role"
+    value     = aws_iam_instance_profile.instance_profile.name
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.instance_profile,
+  ]
+}
+
+output "environment_id" {
+  value = aws_elastic_beanstalk_environment.recipe_manager.id
+}
+
+output "version_label" {
+  value = aws_elastic_beanstalk_application_version.recipe_manager_main.name
 }
 

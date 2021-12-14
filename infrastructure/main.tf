@@ -39,6 +39,32 @@ resource "aws_elastic_beanstalk_application_version" "recipe_manager_main" {
   key         = aws_s3_bucket_object.recipe_manager_deployment.id
 }
 
+resource "aws_iam_role" "aws_elasticbeanstalk_ec2_role" {
+  name = "aws-elasticbeanstalk-ec2-role"
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      },
+    ]
+  })
+}
+
+data "aws_iam_policy" "webtier" {
+  name = "AWSElasticBeanstalkWebTier"
+}
+
+resource "aws_iam_role_policy_attachment" "webtier" {
+  role       = aws_iam_role.aws_elasticbeanstalk_ec2_role.name
+  policy_arn = data.aws_iam_policy.webtier.arn
+}
+
 resource "aws_elastic_beanstalk_environment" "recipe_manager" {
   name                = "development"
   application         = aws_elastic_beanstalk_application.recipe_manager.name
@@ -48,7 +74,11 @@ resource "aws_elastic_beanstalk_environment" "recipe_manager" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
-    value     = "aws-elasticbeanstalk-ec2-role"
+    value     = aws_iam_role.aws_elasticbeanstalk_ec2_role.name
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.webtier
+  ]
 }
 

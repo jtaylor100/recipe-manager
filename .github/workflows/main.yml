@@ -38,8 +38,6 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform -chdir=infrastructure init
-      - name: Setup AWS CLI
-        uses: chrislennon/action-aws-cli@v1.1
       - name: Terraform Apply & Elastic Beanstalk Deploy
         run: |
           terraform -chdir=infrastructure apply -auto-approve

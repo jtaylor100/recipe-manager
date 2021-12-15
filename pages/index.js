@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Layout>
       <Link href="/add" prefetch>
-        <Fab color="primary" aria-label="add" className="bottomRightAnchor">
+        <Fab color="secondary" aria-label="add" className="bottomRightAnchor">
           <AddIcon />
         </Fab>
       </Link>

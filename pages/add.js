@@ -24,17 +24,17 @@ export default function Add() {
               onChange={(e) => handleIngredientNameChange(index, e.target.value, ingredientRows, setIngredientRows)}/> <TextField label="Quantity" variant="filled" 
               value={row.quantity} 
               onChange={(e) => handleIngredientQuantityChange(index, e.target.value, ingredientRows, setIngredientRows)}/>
-            <Button onClick={(e) => deleteIngredientRow(index, ingredientRows, setIngredientRows)}><DeleteIcon /></Button>
+            <Button color="secondary" onClick={(e) => deleteIngredientRow(index, ingredientRows, setIngredientRows)}><DeleteIcon /></Button>
           </Stack>
         )}
         </>
-        <Button variant="outlined" startIcon={<AddIcon />} onClick={() => addIngredientRow(ingredientRows, setIngredientRows)}>
+        <Button color="secondary" variant="outlined" startIcon={<AddIcon />} onClick={() => addIngredientRow(ingredientRows, setIngredientRows)}>
             Add Ingredient
         </Button>
         <Typography my={2} variant="h3">Method</Typography>
         <TextField  multiline label="Write your recipe here!" fullWidth variant="filled" rows={5} />
       </Container>
-      <Fab color="primary" variant="extended" aria-label="save" className="bottomRightAnchor">
+      <Fab color="secondary" variant="extended" aria-label="save" className="bottomRightAnchor">
         <SaveAltIcon sx={{ mr: 1}} /> Save
       </Fab>
     </Layout>

@@ -1,23 +1,18 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar'
+import Fab from '@mui/material/Fab'
+import AddIcon from '@mui/icons-material/Add'
+import Link from 'next/link'
+import Layout from '../components/Layout'
+import styles from '../styles/Home.module.css'
 
 export default function Home() {
   return (
-    <>
-      <Head>
-        <title>Recipe Manager</title>
-      </Head>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Josh's Vegan Gold Mine
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </>
+    <Layout>
+      <Link href="/add" prefetch>
+        <Fab color="primary" aria-label="add" className={styles.bottomRightAnchor}>
+          <AddIcon />
+        </Fab>
+      </Link>
+    </Layout>
   )
 }

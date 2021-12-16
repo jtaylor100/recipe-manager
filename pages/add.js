@@ -24,14 +24,20 @@ export default function Add() {
           <Stack key={index} direction="row" spacing={2} my={2}>
             <TextField label="Ingredient name" variant="filled" 
               value={row.name} 
-              onChange={(e) => handleIngredientNameChange(index, e.target.value, ingredientRows, setIngredientRows)}/> <TextField label="Quantity" variant="filled" 
+              onChange={(e) => handleIngredientNameChange(index, e.target.value, ingredientRows, setIngredientRows)}
+              onKeyDown={(e) => e.code == "Enter" && addIngredientRow(index+1, ingredientRows, setIngredientRows)} 
+            /> 
+            <TextField label="Quantity" variant="filled" 
               value={row.quantity} 
-              onChange={(e) => handleIngredientQuantityChange(index, e.target.value, ingredientRows, setIngredientRows)}/>
+              onChange={(e) => handleIngredientQuantityChange(index, e.target.value, ingredientRows, setIngredientRows)}
+              onKeyDown={(e) => e.code == "Enter" && addIngredientRow(index+1, ingredientRows, setIngredientRows)}
+            />
             <Button color="secondary" onClick={(e) => deleteIngredientRow(index, ingredientRows, setIngredientRows)}><DeleteIcon /></Button>
           </Stack>
         )}
         </>
-        <Button color="secondary" variant="outlined" startIcon={<AddIcon />} onClick={() => addIngredientRow(ingredientRows, setIngredientRows)}>
+        <Button color="secondary" variant="outlined" startIcon={<AddIcon />} 
+          onClick={() => addIngredientRow(ingredientRows.length, ingredientRows, setIngredientRows)}>
             Add Ingredient
         </Button>
         <Typography mt={4} mb={2} variant="h4">Method</Typography>
@@ -54,8 +60,8 @@ function handleIngredientQuantityChange(index, newQuantity, ingredientRows, setI
   setIngredientRows(ingredientRows.slice())
 }
 
-function addIngredientRow(ingredientRows, setIngredientRows) {
-  ingredientRows.push({ name: '', quantity: ''})
+function addIngredientRow(atIndex, ingredientRows, setIngredientRows) {
+  ingredientRows.splice(atIndex, 0, { name: '', quantity: ''})
   setIngredientRows(ingredientRows.slice())
 }
 

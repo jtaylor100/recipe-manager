@@ -2,9 +2,10 @@ import { Typography, Container, Paper, Stack, TextField, Fab, Button } from '@mu
 import Layout from '../components/Layout'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
+import CloseIcon from '@mui/icons-material/Close'
 import { useState } from 'react'
-
+import Link from 'next/link'
 
 export default function Add() {
   const [ingredientRows, setIngredientRows] = useState([{
@@ -17,7 +18,7 @@ export default function Add() {
       <Container sx={{ py:4 }}>
         <Typography mb={2} variant="h3">Add New Recipe</Typography>
         <Typography mt={4} mb={2} variant="h4">Details</Typography>
-        <TextField label="Recipe Name" variant="filled" />
+        <TextField label="Recipe Name" variant="filled" autoFocus={true} />
         <Typography mt={4} variant="h4">Ingredients</Typography>
         <>
         {ingredientRows.map((row, index) =>  
@@ -43,9 +44,16 @@ export default function Add() {
         <Typography mt={4} mb={2} variant="h4">Method</Typography>
         <TextField  multiline label="Write your recipe here!" fullWidth variant="filled" rows={5} />
       </Container>
-      <Fab color="secondary" variant="extended" aria-label="save" className="bottomRightAnchor">
-        <SaveAltIcon sx={{ mr: 1}} /> Save
-      </Fab>
+      <Stack className="bottomRightAnchor" direction="row" spacing={2}>
+        <Link href="/" prefetch>
+          <Fab variant="extended" className="secondaryBottomRightAnchor">
+            <CloseIcon sx={{ mr: 1 }} /> Cancel 
+          </Fab>
+        </Link>
+        <Fab color="secondary" variant="extended" aria-label="save">
+          <SaveAltIcon sx={{ mr: 1}} /> Save
+        </Fab>
+      </Stack>
     </Layout>
   );
 }

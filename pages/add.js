@@ -14,8 +14,11 @@ export default function Add() {
 
   return (
     <Layout>
-      <Container>
-        <Typography mt={2} variant="h3">Ingredients</Typography>
+      <Container sx={{ py:4 }}>
+        <Typography mb={2} variant="h3">Add New Recipe</Typography>
+        <Typography mt={4} mb={2} variant="h4">Details</Typography>
+        <TextField label="Recipe Name" variant="filled" />
+        <Typography mt={4} variant="h4">Ingredients</Typography>
         <>
         {ingredientRows.map((row, index) =>  
           <Stack key={index} direction="row" spacing={2} my={2}>
@@ -31,7 +34,7 @@ export default function Add() {
         <Button color="secondary" variant="outlined" startIcon={<AddIcon />} onClick={() => addIngredientRow(ingredientRows, setIngredientRows)}>
             Add Ingredient
         </Button>
-        <Typography my={2} variant="h3">Method</Typography>
+        <Typography mt={4} mb={2} variant="h4">Method</Typography>
         <TextField  multiline label="Write your recipe here!" fullWidth variant="filled" rows={5} />
       </Container>
       <Fab color="secondary" variant="extended" aria-label="save" className="bottomRightAnchor">

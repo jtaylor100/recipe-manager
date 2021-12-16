@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <Layout>
       <Link href="/add" prefetch>
-        <Fab color="secondary" aria-label="add" className="bottomRightAnchor">
-          <AddIcon />
+        <Fab color="secondary" variant="extended" aria-label="add" className="bottomRightAnchor">
+          <AddIcon sx={{ mr: 1 }} /> Add Recipe
         </Fab>
       </Link>
     </Layout>

@@ -14,7 +14,7 @@ a {
 }
 
 .bottomRightAnchor {
-  position: absolute !important;
+  position: fixed !important;
   bottom: 16px;
   right: 16px;
 }
